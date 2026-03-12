@@ -9,7 +9,7 @@ public abstract class DialogueScript : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI dialogueText;
     [SerializeField] protected string[] lines;
     [SerializeField] AudioClip typeSound;
-    AudioSource audioSource;
+    protected AudioSource audioSource;
     protected int index = 0;
 
     protected virtual void Start()
@@ -45,4 +45,9 @@ public abstract class DialogueScript : MonoBehaviour
         }
     }
     public abstract void EndDialogue();
+
+    public void SetLines(string[] lines)
+    {
+        this.lines = lines;
+    }
 }

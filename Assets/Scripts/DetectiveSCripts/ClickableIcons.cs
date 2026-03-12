@@ -76,4 +76,9 @@ public class ClickableIcons : MonoBehaviour, IPointerClickHandler
     {
         return windowOpen;
     }
+
+    public void SetFile(Sprite file)
+    {
+        this.file = file;
+    }
 }

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class RobinGame : ClickableIcons
 {
-    [SerializeField] int gameSceneNum;
+    [SerializeField] public int gameSceneNum;
     [SerializeField] TextMeshProUGUI journal;
     public override void ClickMethod()
     {

@@ -9,10 +9,12 @@ public class NPCDialogueScript : DialogueScript
     [SerializeField] GameObject[] HUDObjects;
     ManoeuvreFPSController player;
 
+
     private void OnEnable()
     {
         index = 0;
         player = GameObject.FindWithTag("Player").GetComponent<ManoeuvreFPSController>();
+        audioSource = GetComponent<AudioSource>();
         TypeLine();
         player.isInteracting = true;
         foreach (GameObject obj in HUDObjects)
@@ -31,6 +33,7 @@ public class NPCDialogueScript : DialogueScript
         {
             obj.SetActive(true);
         }
+        MMoController.instance.EndLevel();
     }
 
 }
