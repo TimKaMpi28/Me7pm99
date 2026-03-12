@@ -1,0 +1,11 @@
+Model Information:
+* title:	SiN City - Multiplayer map - Doom 2 version
+* source:	https://sketchfab.com/3d-models/sin-city-multiplayer-map-doom-2-version-68d11c6d86b14227b36fb697bc66f449
+* author:	vrchris (https://sketchfab.com/vrchris)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "SiN City - Multiplayer map - Doom 2 version" (https://sketchfab.com/3d-models/sin-city-multiplayer-map-doom-2-version-68d11c6d86b14227b36fb697bc66f449) by vrchris (https://sketchfab.com/vrchris) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
