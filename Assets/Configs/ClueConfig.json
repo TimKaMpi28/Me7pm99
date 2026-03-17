@@ -1,15 +1,26 @@
 {
 	"defaultLevel": {
 		"desktop":[
-		"partyPhoto",
-		"Doom",
-		"Paint"
+			"partyPhoto",
+			"Doom",
+			"Paint"
 		],
 		"news": "news1",
+		"emails": [
+			"LindaMail",
+			"RobinMail",
+		],
 	},
 	"firstLevel": {
-		"desktop": [],
+		"desktop": ["lisa",],
 		"news": "Несчастный случай? Похоже они решили сделать из этого дела настоящее шоу. Как после этого можно доверять властям?",
+		"emails": [],
+	},
+	"secondLevel": {
+		"desktop": [],
+		"news": "",
+		"emails": [
+			"LindaHyperlink",
+		],
 	}
-
 }

@@ -8,11 +8,13 @@ public class FPSceneController : MonoBehaviour
 {
 
     public static FPSceneController instance;
-    public int enemiesCount { get; set; }
+    [SerializeField] public int enemiesCount;
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] int maxEnemy;
     [SerializeField] float time;
+    [SerializeField] bool isTimed = true;
     [SerializeField] int nextSceneIndex;
+    [SerializeField] GameObject bossEnemy;
     //public int curEnemy = 0;
 
     private void Awake()
@@ -23,16 +25,18 @@ public class FPSceneController : MonoBehaviour
 
     public void Start()
     {
-        //enemiesCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
-        enemiesCount = 0;
+        //enemiesCount = FindObjectsByType<EnemyScript>(FindObjectsSortMode.None).Length;
     }
 
     public void Update()
     {
-        time -= Time.deltaTime;
-        if (time <= 0)
+        if (isTimed)
         {
-            EndLevel();
+            time -= Time.deltaTime;
+            if (time <= 0)
+            {
+                EndLevel();
+            }
         }
     }
     public void EndLevel()
@@ -54,5 +58,24 @@ public class FPSceneController : MonoBehaviour
     {
         if (enemiesCount >= maxEnemy) return false;
         return true;
+    }
+
+    public void EnemyKilled()
+    {
+        enemiesCount--;
+        Debug.Log(enemiesCount);
+        if (!isTimed && enemiesCount == 0)
+        {
+            bossEnemy.SetActive(true);
+        }
+        else if (isTimed)
+        {
+            BiggerText();
+        }
+    }
+
+    public void EndMissionLevel()
+    {
+        SceneManager.LoadScene(0);
     }
 }

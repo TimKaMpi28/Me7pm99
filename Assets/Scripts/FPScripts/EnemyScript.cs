@@ -6,30 +6,31 @@ using UnityEngine.AI;
 
 public class EnemyScript : MonoBehaviour
 {
-    [SerializeField] float cooldown;
-    NavMeshAgent agent;
+    [SerializeField] protected float cooldown;
+    protected NavMeshAgent agent;
 
-    [SerializeField] GameObject bullet;
-    [SerializeField] GameObject gunPoint;
-    Animator animator;
-    AudioSource[] source;
+    [SerializeField] protected GameObject bullet;
+    [SerializeField] protected GameObject gunPoint;
+    protected Animator animator;
+    protected AudioSource[] source;
 
-    private float curTime;
-    private bool canShoot = true;
-    private int health = 20;
-    private bool isDead = false;
-    void Start()
+    protected float curTime;
+    protected bool canShoot = true;
+    [SerializeField] protected int health = 20;
+    protected bool isDead = false;
+    virtual protected void Start()
     {
      agent = GetComponent<NavMeshAgent>(); 
      animator = GetComponentInChildren<Animator>();
      source = GetComponents<AudioSource>();
      //agent.SetDestination(GameObject.FindWithTag("Player").gameObject.transform.position);
     }
-    void Update()
+    protected virtual void Update()
     {
         if (!isDead)
         {
-            agent.SetDestination(GameObject.FindWithTag("Player").gameObject.transform.position);
+            var player = GameObject.FindWithTag("Player");
+            agent.SetDestination(player.gameObject.transform.position);
             animator.SetFloat("Blend", agent.speed);
             if (curTime < cooldown && !canShoot) curTime += Time.deltaTime;
             else canShoot = true;
@@ -58,6 +59,7 @@ public class EnemyScript : MonoBehaviour
 
     public void getDamaged()
     {
+        Debug.Log("damaged enemy");
             health -= 10;
             if (health <= 0 && !isDead)
             {
@@ -65,7 +67,7 @@ public class EnemyScript : MonoBehaviour
             }
     }
 
-    private void Die()
+    protected virtual void Die()
     {
         Destroy(gameObject, 3f);
         animator.SetFloat("Blend", 0);
@@ -73,8 +75,7 @@ public class EnemyScript : MonoBehaviour
         animator.SetBool("Dead", true);
         isDead = true;
         agent.SetDestination(transform.position);
-        FPSceneController.instance.enemiesCount -= 1;
-        FPSceneController.instance.BiggerText();
+        FPSceneController.instance.EnemyKilled();
         source[1].Play();
         transform.Rotate(Vector3.right * 90);
         /*if (FPSceneController.instance.enemiesCount == 0)

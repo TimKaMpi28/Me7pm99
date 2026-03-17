@@ -21,6 +21,7 @@ public class DetectivePartController : MonoBehaviour
     [SerializeField] GameObject casualties;
     [SerializeField] Sprite[] newsArticles;
     [SerializeField] RobinGame game;
+    [SerializeField] MailCollection mailCollection;
     public bool isReady = false;
     private void Awake()
     {
@@ -38,7 +39,9 @@ public class DetectivePartController : MonoBehaviour
         List<string> availableClues = data.defaultLevel.desktop;
         StreamReader saveReader = new("Assets/save/foundClues.data");
         List<string> foundClues = new(saveReader.ReadToEnd().Split(' '));
+        List<string> emails = data.defaultLevel.emails;
         saveReader.Close();
+        bool addSecretClue = false;
         if (PlayerPrefs.HasKey("SurvivedLevel"))
         {
             casualties.SetActive(true);
@@ -52,11 +55,23 @@ public class DetectivePartController : MonoBehaviour
         {
             casualties.SetActive(false);
         }
+        if (PlayerPrefs.HasKey("MMOLevel"))
+        {
+            var internet = GameObject.Find("Internet");
+            internet.GetComponent<ClueObject>().GetIt();
+            emails.AddRange(data.secondLevel.emails);
+            game.gameSceneNum = 6;
+            addSecretClue = true;
+        }
         ClueObject[] clues = FindObjectsByType<ClueObject>(FindObjectsSortMode.None);
         _numberOfClues = clues.Length;
         foreach (var clue in clues)
         {
-            if (clue.name.Equals("Internet")) continue;
+            if (clue.name.Equals("Internet"))
+            {
+                if (clue.hasGotten()) _numberOfClues--;
+                continue;
+            }
 
             if (!availableClues.Contains(clue.name))
             {
@@ -70,10 +85,12 @@ public class DetectivePartController : MonoBehaviour
                 _numberOfClues--;
             }
         }
+        mailCollection.SetEmails(emails);
         if (PlayerPrefs.HasKey("JournalEntry"))
         {
             journal.text = PlayerPrefs.GetString("JournalEntry");
         }
+        if (addSecretClue) _numberOfClues++;
         Debug.Log("Number of Clues: " +  _numberOfClues);
     }
 
@@ -100,16 +117,23 @@ public class DetectivePartController : MonoBehaviour
         }
         nextButton.SetActive(true); 
     }
+
+    public void AddClue()
+    {
+        _numberOfClues++;
+    }
     private class ConfigData
     {
         public levelData defaultLevel;
         public levelData firstLevel;
+        public levelData secondLevel;
     }
 
     private class levelData
     {
         public List<string> desktop;
         public string news;
+        public List<string> emails;
     }
 }
 

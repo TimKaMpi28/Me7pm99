@@ -18,14 +18,15 @@ public class InboxMail : MonoBehaviour, IPointerDownHandler
     [SerializeField] Button[] answerButtons;
     [SerializeField] TextMeshProUGUI answerText;
     [SerializeField] GameObject reply;
+    [SerializeField] bool isReply;
 
-    private bool hasAnswered = false;
+    private bool hasAnswered { get; set;}
     private string pickedOption;
     public static GameObject selection = null;
 
     void Awake()
     {
-        StreamReader reader = new("Assets/save/mailAnswers.data");
+        /*StreamReader reader = new("Assets/save/mailAnswers.data");
         string line;
         while ((line = reader.ReadLine()) != null)
         {
@@ -40,12 +41,13 @@ public class InboxMail : MonoBehaviour, IPointerDownHandler
                 break;
             }
         }
-        reader.Close();
+        reader.Close();*/
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Starting " + name);
         if (reply != null && !hasAnswered) reply.SetActive(false);
     }
 
@@ -99,7 +101,39 @@ public class InboxMail : MonoBehaviour, IPointerDownHandler
             reply.SetActive(true);
         }
         StreamWriter writer = new("Assets/save/mailAnswers.data", true);
-        writer.WriteLine(name + " " + pickedOption.ToString());
+        writer.WriteLine(name + " " + number);
         writer.Close();
+    }
+
+    public void MakeAnswer(int answer)
+    {
+        pickedOption = options[answer];
+        hasAnswered = true;
+        reply.SetActive(true);
+        Debug.Log("has answered, showing: " + reply.name);
+    }
+
+    public bool IsReply()
+    {
+        return isReply;
+    }
+
+    public void HideReply()
+    {
+        if (canAnswer)
+        {
+            Debug.Log("Hiding reply: " + reply.name);
+            reply.SetActive(false);
+        }
+    }
+
+    public void OnDisable()
+    {
+        Debug.Log("Disabling " + name);
+    }
+
+    public Button GetFirstButton()
+    {
+        return answerButtons[0];
     }
 }

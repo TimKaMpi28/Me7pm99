@@ -48,4 +48,14 @@ public class ClueObject : MonoBehaviour
     {
         clue_text = text;
     }
+
+    public void UngetIt()
+    {
+        gotIt = false;
+    }
+
+    public bool hasGotten()
+    {
+        return gotIt;
+    }
 }

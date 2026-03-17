@@ -273,6 +273,10 @@ namespace Manoeuvre
             {
                 Health.ApplyDamage(10);
             }
+            else if (other.tag == "Boss")
+            {
+                Health.ApplyDamage(20);
+            }
         }
         public void HealthkitPickup(int amount)
         {
